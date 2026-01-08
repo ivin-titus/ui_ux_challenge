@@ -4,7 +4,10 @@ export interface User {
   id: string;
   email: string;
   name: string;
+  bio: string;
+  avatar: string | null; // Base64 data URL or null if no avatar
   password: string; // In real app, this would be hashed
+  createdAt: Date;
 }
 
 export interface Post {

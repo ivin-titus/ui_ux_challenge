@@ -14,3 +14,7 @@ export { ToastProvider, useToast } from "./Toast";
 export type { ToastType } from "./Toast";
 
 export { PasswordStrengthIndicator } from "./PasswordStrengthIndicator";
+
+export { Avatar, AvatarViewer } from "./Avatar";
+
+export { ProfileEditor } from "./ProfileEditor";

@@ -59,6 +59,11 @@ export async function destroySession(): Promise<void> {
   cookieStore.delete(SESSION_COOKIE_NAME);
 }
 
+// Update session with new user data (e.g., after name change)
+export async function updateSession(user: User): Promise<void> {
+  await createSession(user.id);
+}
+
 // Helper to check if user is authenticated
 export async function isAuthenticated(): Promise<boolean> {
   const session = await getSession();

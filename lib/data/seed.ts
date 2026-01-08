@@ -16,25 +16,44 @@ function generateExcerpt(content: string, maxLength: number = 150): string {
   return content.substring(0, maxLength).trim() + "...";
 }
 
+// Demo avatars - simple gradient SVGs encoded as data URLs
+const DEMO_AVATARS = {
+  alex: `data:image/svg+xml,${encodeURIComponent(
+    `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><linearGradient id="g1" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#6366f1"/><stop offset="100%" style="stop-color:#8b5cf6"/></linearGradient></defs><rect fill="url(#g1)" width="100" height="100"/><text x="50" y="62" font-family="system-ui" font-size="40" font-weight="600" fill="white" text-anchor="middle">AC</text></svg>`
+  )}`,
+  jamie: `data:image/svg+xml,${encodeURIComponent(
+    `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><linearGradient id="g2" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#f59e0b"/><stop offset="100%" style="stop-color:#ef4444"/></linearGradient></defs><rect fill="url(#g2)" width="100" height="100"/><text x="50" y="62" font-family="system-ui" font-size="40" font-weight="600" fill="white" text-anchor="middle">JW</text></svg>`
+  )}`,
+};
+
 // Seed users
 export const seedUsers: User[] = [
   {
     id: "user-1",
     email: "alex@example.com",
     name: "Alex Chen",
+    bio: "Full-stack developer passionate about building delightful user experiences. Based in San Francisco.",
+    avatar: DEMO_AVATARS.alex,
     password: "password123",
+    createdAt: new Date("2025-06-15"),
   },
   {
     id: "user-2",
     email: "jamie@example.com",
     name: "Jamie Wilson",
+    bio: "Designer turned developer. I write about the intersection of design and technology.",
+    avatar: DEMO_AVATARS.jamie,
     password: "password123",
+    createdAt: new Date("2025-08-22"),
   },
   {
     id: "user-3",
     email: "sam@example.com",
     name: "Sam Rivera",
+    bio: "Productivity enthusiast and digital minimalist. Sharing thoughts on intentional living.",
+    avatar: null,
     password: "password123",
+    createdAt: new Date("2025-10-01"),
   },
 ];
 
@@ -46,6 +65,7 @@ const seedPostsData: Array<{
   authorId: string;
   authorName: string;
   daysAgo: number;
+  visibility: "public" | "authenticated";
 }> = [
   {
     title: "Getting Started with Next.js App Router",
@@ -65,6 +85,7 @@ The App Router provides built-in support for loading and error states through sp
     authorId: "user-1",
     authorName: "Alex Chen",
     daysAgo: 2,
+    visibility: "public" as const,
   },
   {
     title: "The Art of Minimal Design",
@@ -84,6 +105,7 @@ The goal is clarity. Every element should have a purpose. If you can't explain w
     authorId: "user-2",
     authorName: "Jamie Wilson",
     daysAgo: 5,
+    visibility: "public" as const,
   },
   {
     title: "Building Better Habits",
@@ -103,6 +125,7 @@ Remember: you don't rise to the level of your goals, you fall to the level of yo
     authorId: "user-3",
     authorName: "Sam Rivera",
     daysAgo: 7,
+    visibility: "public" as const,
   },
   {
     title: "Deep Work in a Distracted World",
@@ -122,6 +145,7 @@ The deep work hypothesis: the ability to concentrate without distraction on a co
     authorId: "user-1",
     authorName: "Alex Chen",
     daysAgo: 10,
+    visibility: "public" as const,
   },
   {
     title: "Navigating Your First Tech Job",
@@ -144,6 +168,7 @@ The first year is about learning, not proving. Give yourself permission to be a 
     authorId: "user-2",
     authorName: "Jamie Wilson",
     daysAgo: 14,
+    visibility: "public" as const,
   },
   {
     title: "On Digital Minimalism",
@@ -163,6 +188,59 @@ We need a philosophy of technology use. Not abstinence, but intentionality. What
     authorId: "user-3",
     authorName: "Sam Rivera",
     daysAgo: 21,
+    visibility: "public" as const,
+  },
+  {
+    title: "Behind the Scenes: My Development Setup",
+    content: `This is a members-only post where I share the details of my development environment and workflow.
+
+**Hardware**
+I use a MacBook Pro M2 with 32GB RAM. The extra memory is worth it for running multiple Docker containers and VMs.
+
+**Editor**
+VS Code with a minimal set of extensions. I've learned that too many extensions slow things down.
+
+**Terminal**
+iTerm2 with Oh My Zsh. I use tmux for session management when working on remote servers.
+
+**The Key Tools**
+- Fig for terminal autocomplete
+- Raycast for app launching
+- Arc browser for development
+- Linear for task tracking
+
+This setup has evolved over years of experimentation. The key is finding what works for you.`,
+    topicId: "technology",
+    authorId: "user-1",
+    authorName: "Alex Chen",
+    daysAgo: 3,
+    visibility: "authenticated" as const,
+  },
+  {
+    title: "My Reading List: Books That Changed My Perspective",
+    content: `A curated list of books that have shaped how I think about work, creativity, and life. Members-only content.
+
+**On Work**
+- "Deep Work" by Cal Newport
+- "The Effective Executive" by Peter Drucker
+- "Range" by David Epstein
+
+**On Creativity**
+- "Steal Like an Artist" by Austin Kleon
+- "The War of Art" by Steven Pressfield
+- "Bird by Bird" by Anne Lamott
+
+**On Life**
+- "The Obstacle Is the Way" by Ryan Holiday
+- "Atomic Habits" by James Clear
+- "Essentialism" by Greg McKeown
+
+Each of these books arrived at the right moment and shifted something in how I approach problems.`,
+    topicId: "lifestyle",
+    authorId: "user-2",
+    authorName: "Jamie Wilson",
+    daysAgo: 8,
+    visibility: "authenticated" as const,
   },
 ];
 
@@ -180,6 +258,6 @@ export const seedPosts: Post[] = seedPostsData.map((post, index) => {
     authorId: post.authorId,
     authorName: post.authorName,
     createdAt,
-    visibility: "public" as const,
+    visibility: post.visibility,
   };
 });

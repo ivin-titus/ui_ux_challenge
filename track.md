@@ -1,76 +1,96 @@
 # Axis Blog - Development Track
 
-## Current Status: ✅ Core Implementation Complete
+## Current Status: ✅ Full CRUD Complete
 
-## Completed Features
+### Completed This Sprint
 
-### Phase 1: Planning ✅
+- [x] **Post CRUD**
+  - [x] Create post
+  - [x] Read posts (feed, detail)
+  - [x] Update own posts (server action)
+  - [x] Delete own posts (server action)
+- [x] **Profile CRUD**
+  - [x] Read profile with avatar display
+  - [x] Update display name and bio
+  - [x] Profile picture upload/view/delete
+  - [x] Fullscreen avatar preview
 
-- Information architecture with 7 routes
-- Component breakdown (UI, Layout, Feature)
-- Mock data strategy with in-memory store
+### Up Next
 
-### Phase 2: Core Infrastructure ✅
-
-- TypeScript types for User, Post, Topic, Auth states
-- In-memory data store with CRUD operations
-- Cookie-based session management
-- Server actions for auth and posts
-
-### Phase 3: Shared Components ✅
-
-- **UI Primitives:** Button, Input, TextArea, Card
-- **Layout:** Header, Footer, MainLayout
-- **Feedback:** Toast notifications, PasswordStrengthIndicator
-
-### Phase 4: Pages ✅
-
-- `/` — Landing page with hero and featured posts
-- `/auth` — Progressive email-first auth flow
-- `/blog` — Feed with topic filtering
-- `/blog/[slug]` — Post detail with reading time
-- `/blog/create` — Editor with visibility toggle
-- `/profile` — User info, posts, and logout
-
-### Phase 5: UX Polish ✅
-
-- Email, password, name validation
-- Character counts with color indicators
-- Reading time estimates
-- Toast notifications
-- Reduced motion support
-- Post visibility (Public / Members Only)
+- [ ] Post edit UI page (`/blog/[slug]/edit`)
+- [ ] Delete post confirmation dialog
+- [ ] Copy link button on post detail
+- [ ] Draft auto-save to localStorage
 
 ---
 
-## Backlog / Ideas
+## Completed Features
+
+### Core Infrastructure ✅
+
+- TypeScript types (User, Post, Topic, Auth)
+- In-memory data store with full CRUD operations
+- Cookie-based session management
+- Server actions for auth, posts, and profile
+- Both public and authenticated-only seed posts
+- Demo avatar images for seed users
+
+### Components ✅
+
+- **UI**: Button, Input, TextArea, Card, Toast, Avatar, ProfileEditor
+- **Layout**: Header, Footer, MainLayout
+- **Blog**: PostCard, PostList, PostEditor, PostContent
+- **Auth**: AuthForm with password strength
+- **Profile**: ProfileCard with avatar and edit modal
+
+### Pages ✅
+
+- `/` — Landing with hero + featured posts
+- `/auth` — Progressive email-first auth
+- `/blog` — Feed with topic filtering
+- `/blog/[slug]` — Post detail with reading time
+- `/blog/create` — Editor with visibility toggle
+- `/profile` — Avatar, bio, edit modal, posts list
+
+### UX Polish ✅
+
+- Email, password, name validation
+- Password strength indicator
+- Character counts with limits
+- Reading time estimates
+- Toast notifications
+- Post visibility (Public / Members Only)
+- Reduced motion support
+
+---
+
+## Backlog
 
 ### High Priority
 
+- [ ] Post edit UI page
+- [ ] Delete confirmation dialog
 - [ ] Copy link button on post detail
-- [ ] Edit/delete own posts
-- [ ] Draft auto-save to localStorage
 
 ### Medium Priority
 
+- [ ] Draft auto-save to localStorage
 - [ ] Preview mode before publish
 - [ ] Search posts by title/author
-- [ ] Dark mode toggle (currently system)
-- [ ] Bookmark/save posts
+- [ ] Dark mode toggle
 
 ### Low Priority
 
 - [ ] Comments system
-- [ ] User avatars/profile pictures
 - [ ] Rich text editor
-- [ ] Social sharing meta tags
+- [ ] Social meta tags
 
 ---
 
 ## Tech Stack
 
-- **Framework:** Next.js 15 (App Router)
-- **Styling:** Tailwind CSS 4
-- **Language:** TypeScript
-- **State:** Server Actions + Cookies
-- **Data:** In-memory (persists during runtime)
+- Next.js 15 (App Router)
+- Tailwind CSS 4
+- TypeScript
+- Server Actions + Cookies
+- In-memory data store

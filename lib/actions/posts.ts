@@ -120,3 +120,104 @@ export async function createPost(
     post: newPost,
   };
 }
+
+export interface UpdatePostResult {
+  success: boolean;
+  post?: Post;
+  error?: string;
+}
+
+/**
+ * Update an existing post (only by author)
+ */
+export async function updatePost(
+  postId: string,
+  updates: {
+    title?: string;
+    content?: string;
+    topicId?: TopicId;
+    visibility?: PostVisibility;
+  }
+): Promise<UpdatePostResult> {
+  const session = await getSession();
+
+  if (!session) {
+    return {
+      success: false,
+      error: "You must be logged in to update a post.",
+    };
+  }
+
+  // Validate title if provided
+  if (updates.title !== undefined && !updates.title.trim()) {
+    return {
+      success: false,
+      error: "Title cannot be empty.",
+    };
+  }
+
+  // Validate content if provided
+  if (updates.content !== undefined && !updates.content.trim()) {
+    return {
+      success: false,
+      error: "Content cannot be empty.",
+    };
+  }
+
+  const updatedPost = store.updatePost(postId, session.id, {
+    title: updates.title?.trim(),
+    content: updates.content?.trim(),
+    topicId: updates.topicId,
+    visibility: updates.visibility,
+  });
+
+  if (!updatedPost) {
+    return {
+      success: false,
+      error: "Post not found or you don't have permission to edit it.",
+    };
+  }
+
+  return {
+    success: true,
+    post: updatedPost,
+  };
+}
+
+export interface DeletePostResult {
+  success: boolean;
+  error?: string;
+}
+
+/**
+ * Delete a post (only by author)
+ */
+export async function deletePost(postId: string): Promise<DeletePostResult> {
+  const session = await getSession();
+
+  if (!session) {
+    return {
+      success: false,
+      error: "You must be logged in to delete a post.",
+    };
+  }
+
+  const deleted = store.deletePost(postId, session.id);
+
+  if (!deleted) {
+    return {
+      success: false,
+      error: "Post not found or you don't have permission to delete it.",
+    };
+  }
+
+  return { success: true };
+}
+
+/**
+ * Get a post by ID (for editing)
+ */
+export async function getPostById(postId: string): Promise<Post | null> {
+  const post = store.getPostById(postId);
+  return post ?? null;
+}

@@ -35,9 +35,41 @@ class DataStore {
 
   createUser(email: string, name: string, password: string): User {
     const id = `user-${Date.now()}`;
-    const newUser: User = { id, email, name, password };
+    const newUser: User = {
+      id,
+      email,
+      name,
+      bio: "",
+      avatar: null,
+      password,
+      createdAt: new Date(),
+    };
     this.users.push(newUser);
     return newUser;
+  }
+
+  updateUser(
+    userId: string,
+    updates: { name?: string; bio?: string; avatar?: string | null }
+  ): User | null {
+    const userIndex = this.users.findIndex((u) => u.id === userId);
+    if (userIndex === -1) return null;
+
+    const user = this.users[userIndex];
+    if (updates.name !== undefined) user.name = updates.name;
+    if (updates.bio !== undefined) user.bio = updates.bio;
+    if (updates.avatar !== undefined) user.avatar = updates.avatar;
+
+    // Also update author name in their posts if name changed
+    if (updates.name !== undefined) {
+      this.posts.forEach((post) => {
+        if (post.authorId === userId) {
+          post.authorName = updates.name!;
+        }
+      });
+    }
+
+    return user;
   }
 
   validatePassword(user: User, password: string): boolean {
@@ -58,6 +90,10 @@ class DataStore {
 
   getPostBySlug(slug: string): Post | undefined {
     return this.posts.find((post) => post.slug === slug);
+  }
+
+  getPostById(id: string): Post | undefined {
+    return this.posts.find((post) => post.id === id);
   }
 
   getPostsByAuthor(authorId: string): Post[] {
@@ -91,6 +127,51 @@ class DataStore {
 
     this.posts.push(newPost);
     return newPost;
+  }
+
+  updatePost(
+    postId: string,
+    authorId: string,
+    updates: {
+      title?: string;
+      content?: string;
+      topicId?: TopicId;
+      visibility?: "public" | "authenticated";
+    }
+  ): Post | null {
+    const postIndex = this.posts.findIndex((p) => p.id === postId);
+    if (postIndex === -1) return null;
+
+    const post = this.posts[postIndex];
+
+    // Only author can update their own post
+    if (post.authorId !== authorId) return null;
+
+    if (updates.title !== undefined) {
+      post.title = updates.title;
+      post.slug = this.generateSlug(updates.title);
+    }
+    if (updates.content !== undefined) {
+      post.content = updates.content;
+      post.excerpt = this.generateExcerpt(updates.content);
+    }
+    if (updates.topicId !== undefined) post.topicId = updates.topicId;
+    if (updates.visibility !== undefined) post.visibility = updates.visibility;
+
+    return post;
+  }
+
+  deletePost(postId: string, authorId: string): boolean {
+    const postIndex = this.posts.findIndex((p) => p.id === postId);
+    if (postIndex === -1) return false;
+
+    const post = this.posts[postIndex];
+
+    // Only author can delete their own post
+    if (post.authorId !== authorId) return false;
+
+    this.posts.splice(postIndex, 1);
+    return true;
   }
 
   private generateSlug(title: string): string {
