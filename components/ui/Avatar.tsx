@@ -132,7 +132,7 @@ export function AvatarViewer({
       <img
         src={src}
         alt={`${name}'s avatar`}
-        className="max-w-full max-h-full rounded-lg shadow-2xl"
+        className="w-64 h-64 sm:w-80 sm:h-80 object-cover rounded-full shadow-2xl"
         onClick={(e) => e.stopPropagation()}
       />
     </div>

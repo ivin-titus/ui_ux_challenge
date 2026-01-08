@@ -66,13 +66,21 @@ export async function Header() {
                   + New
                 </Link>
                 <Link href="/profile">
-                  <div
-                    className="w-9 h-9 rounded-full bg-slate-200 dark:bg-slate-700 flex items-center justify-center text-sm font-medium text-slate-600 dark:text-slate-300 hover:bg-slate-300 dark:hover:bg-slate-600 transition-colors cursor-pointer"
-                    title={session.name}
-                    aria-label={`${session.name}'s profile`}
-                  >
-                    {session.name.charAt(0).toUpperCase()}
-                  </div>
+                  {session.avatar ? (
+                    <img
+                      src={session.avatar}
+                      alt={session.name}
+                      className="w-9 h-9 rounded-full object-cover hover:ring-2 hover:ring-slate-300 dark:hover:ring-slate-600 transition-all"
+                    />
+                  ) : (
+                    <div
+                      className="w-9 h-9 rounded-full bg-slate-200 dark:bg-slate-700 flex items-center justify-center text-sm font-medium text-slate-600 dark:text-slate-300 hover:bg-slate-300 dark:hover:bg-slate-600 transition-colors cursor-pointer"
+                      title={session.name}
+                      aria-label={`${session.name}'s profile`}
+                    >
+                      {session.name.charAt(0).toUpperCase()}
+                    </div>
+                  )}
                 </Link>
               </>
             ) : (
