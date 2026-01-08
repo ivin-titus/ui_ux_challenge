@@ -2,29 +2,29 @@
 
 ## Current Status: Phase 2 Complete ✅
 
-### Phase 1: Data Models ✅
+### Completed
 
-- Added username to User, authorUsername to Post
-- Created Follow, Message, Conversation types
-- Implemented all social store methods
+- **Phase 1:** Data models (username, social types, store methods)
+- **Phase 2:** 1:1 Messaging with demo conversations
 
-### Phase 2: 1:1 Messaging ✅
+### Remaining (Time-boxed)
 
-- `/messages` - Conversations list
-- `/messages/[id]` - Chat with optimistic sending
-- Messages icon in header nav
+- [ ] **Phase 3:** Following system (quick version)
+- [ ] **Phase 4:** Public profiles `/u/[username]`
+- [ ] **UI/UX Audit** - Check all flows for dead ends
 
-### Phase 3: Following System (Next)
+---
 
-- [ ] Follow/unfollow server actions
-- [ ] Get followers/following lists
-- [ ] Feed prioritizes followed users
+## UI/UX Audit Checklist
 
-### Phase 4: Public Profiles
-
-- [ ] `/u/[username]` route
-- [ ] Follow + Message buttons
-- [ ] Link author names to profiles
+- [ ] Nav: All links work, no dead ends
+- [ ] Auth: Email→Login/Register flows smooth
+- [ ] Posts: Create/Edit/Delete work correctly
+- [ ] Profile: Edit modal saves, avatar works
+- [ ] Messages: Send/receive, optimistic updates
+- [ ] Empty states: Friendly messaging
+- [ ] Error states: Clear feedback
+- [ ] Mobile: Responsive on small screens
 
 ---
 
@@ -34,33 +34,14 @@
 
 - [ ] Likes on posts
 - [ ] Comments
-- [ ] Bookmarks
 - [ ] Search
 - [ ] Dark mode toggle
-- [ ] Notifications
 
 ### Medium Priority
 
+- [ ] Bookmarks
+- [ ] Notifications
 - [ ] Trending posts
-- [ ] Suggested users
-- [ ] Topic subscriptions
-
-### Low Priority
-
-- [ ] Cover images
-- [ ] Block/mute
-- [ ] Rich text editor
-
----
-
-## Completed ✅
-
-- Auth: email-first flow
-- Posts: CRUD, visibility toggle
-- Profile: avatar, bio, edit
-- Feed: topic filtering
-- UX: validation, toasts
-- 1:1 Messaging
 
 ---
 

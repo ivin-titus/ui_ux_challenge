@@ -1,31 +1,29 @@
-# Axis Blog
+# Axis - Social Blog Platform
 
-A modern, minimal blog platform built with Next.js 15 — focusing on **UX clarity**, **accessibility**, and **clean design**.
-
-![Next.js](https://img.shields.io/badge/Next.js-15-black?logo=next.js)
-![TypeScript](https://img.shields.io/badge/TypeScript-5-blue?logo=typescript)
-![Tailwind CSS](https://img.shields.io/badge/Tailwind-4-38bdf8?logo=tailwindcss)
+A modern social blogging platform built with Next.js 15, featuring 1:1 messaging, user profiles, and a clean minimal design.
 
 ## ✨ Features
 
-### Core
+### Core Blog
 
-- **Progressive Auth Flow** — Email-first, no tabs/toggles
-- **Topic Filtering** — Browse by Technology, Design, Lifestyle, etc.
-- **Post Visibility** — Public or Members-Only posts
-- **Reading Time** — Estimated read duration on all posts
+- **Posts** - Create, edit, delete with visibility controls (public/members-only)
+- **Topics** - Filter by Technology, Design, Lifestyle, Productivity, Career, Thoughts
+- **Rich Profiles** - Avatar, bio, member since date
+- **Feed** - Browse latest posts with topic filtering
 
-### UX Polish
+### Social Features
 
-- **Password Strength Indicator** — Real-time feedback during signup
-- **Character Counts** — Live limits with color warnings
-- **Toast Notifications** — Feedback on actions
-- **Reduced Motion** — Respects `prefers-reduced-motion`
-- **Skip to Content** — Keyboard accessibility
+- **1:1 Messaging** - Direct chat between users with real-time updates
+- **Public Profiles** - View any user's posts and info at `/u/[username]`
+- **Following** - Follow users to prioritize their content (coming soon)
 
-### Design Philosophy
+### User Experience
 
-> Calm, minimal, clarity-first. No animations, glassmorphism, or visual noise.
+- **Progressive Auth** - Email-first flow with password strength indicator
+- **Validation** - Real-time feedback with character counts
+- **Toast Notifications** - Success/error feedback
+- **Reading Time** - Estimated time for each post
+- **Dark Mode Ready** - CSS variables configured
 
 ## 🚀 Quick Start
 
@@ -33,65 +31,70 @@ A modern, minimal blog platform built with Next.js 15 — focusing on **UX clari
 # Install dependencies
 npm install
 
-# Run development server
+# Start development server
 npm run dev
+
+# Open http://localhost:3000
 ```
 
-Open [http://localhost:3000](http://localhost:3000)
+## � Demo Accounts
+
+| Name         | Email             | Password    |
+| ------------ | ----------------- | ----------- |
+| Alex Chen    | alex@example.com  | password123 |
+| Jamie Wilson | jamie@example.com | password123 |
+| Sam Rivera   | sam@example.com   | password123 |
+
+Demo conversations are pre-loaded between users.
 
 ## 📁 Project Structure
 
 ```
-├── app/                    # Next.js App Router
-│   ├── auth/              # Authentication flow
-│   ├── blog/              # Blog feed, detail, create
-│   ├── profile/           # User profile
-│   └── layout.tsx         # Root layout
-├── components/
-│   ├── ui/                # Reusable primitives
-│   ├── layout/            # Header, Footer, MainLayout
-│   ├── auth/              # AuthForm
-│   ├── blog/              # PostCard, PostEditor, etc.
-│   └── profile/           # ProfileCard
-├── lib/
-│   ├── types.ts           # TypeScript interfaces
-│   ├── actions/           # Server actions
-│   ├── data/              # Store, session, seed data
-│   └── utils/             # Validation helpers
-└── track.md               # Development progress
+app/
+├── auth/          # Authentication flow
+├── blog/          # Feed, post detail, create, edit
+├── messages/      # Conversations list, chat view
+├── profile/       # User profile page
+└── u/[username]/  # Public profiles (coming soon)
+
+components/
+├── auth/          # AuthForm
+├── blog/          # PostCard, PostEditor, PostContent
+├── layout/        # Header, Footer, MainLayout
+├── messages/      # MessageThread
+├── profile/       # ProfileCard
+└── ui/            # Button, Input, Card, Toast, Avatar
+
+lib/
+├── actions/       # Server actions (auth, posts, messages, profile)
+├── data/          # In-memory store, seed data, session
+└── types.ts       # TypeScript interfaces
 ```
-
-## 🔐 Demo Accounts
-
-| Email               | Password      | Notes              |
-| ------------------- | ------------- | ------------------ |
-| `sarah@example.com` | `password123` | Has existing posts |
-| `alex@example.com`  | `password123` | Has existing posts |
-
-Or create a new account with any email.
 
 ## 🛠 Tech Stack
 
-- **Next.js 15** — App Router, Server Actions
-- **TypeScript** — Full type safety
-- **Tailwind CSS 4** — Utility-first styling
-- **Cookies** — Session management (base64 encoded)
-- **In-Memory Store** — Persists during server runtime
+- **Framework**: Next.js 15 (App Router)
+- **Styling**: Tailwind CSS 4
+- **Language**: TypeScript
+- **State**: Server Actions + Cookies
+- **Storage**: In-memory (demo purposes)
 
-## 📋 Validation Rules
+## 📋 Roadmap
 
-| Field        | Constraints           |
-| ------------ | --------------------- |
-| Email        | Valid format required |
-| Password     | Min 6 characters      |
-| Name         | 2-50 characters       |
-| Post Title   | 5-100 characters      |
-| Post Content | 50-10,000 characters  |
+### In Progress
 
-## 🎯 Roadmap
+- [ ] Public profile pages (`/u/[username]`)
+- [ ] Follow/unfollow system
 
-See [track.md](./track.md) for development progress and backlog.
+### Planned
 
-## 📄 License
+- [ ] Likes on posts
+- [ ] Comments
+- [ ] Bookmarks
+- [ ] Search
+- [ ] Dark mode toggle
+- [ ] Notifications
+
+## License
 
 MIT

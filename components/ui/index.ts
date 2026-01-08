@@ -18,3 +18,5 @@ export { PasswordStrengthIndicator } from "./PasswordStrengthIndicator";
 export { Avatar, AvatarViewer } from "./Avatar";
 
 export { ProfileEditor } from "./ProfileEditor";
+
+export { FollowButton } from "./FollowButton";
