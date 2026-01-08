@@ -1,36 +1,97 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Axis Blog
 
-## Getting Started
+A modern, minimal blog platform built with Next.js 15 — focusing on **UX clarity**, **accessibility**, and **clean design**.
 
-First, run the development server:
+![Next.js](https://img.shields.io/badge/Next.js-15-black?logo=next.js)
+![TypeScript](https://img.shields.io/badge/TypeScript-5-blue?logo=typescript)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind-4-38bdf8?logo=tailwindcss)
+
+## ✨ Features
+
+### Core
+
+- **Progressive Auth Flow** — Email-first, no tabs/toggles
+- **Topic Filtering** — Browse by Technology, Design, Lifestyle, etc.
+- **Post Visibility** — Public or Members-Only posts
+- **Reading Time** — Estimated read duration on all posts
+
+### UX Polish
+
+- **Password Strength Indicator** — Real-time feedback during signup
+- **Character Counts** — Live limits with color warnings
+- **Toast Notifications** — Feedback on actions
+- **Reduced Motion** — Respects `prefers-reduced-motion`
+- **Skip to Content** — Keyboard accessibility
+
+### Design Philosophy
+
+> Calm, minimal, clarity-first. No animations, glassmorphism, or visual noise.
+
+## 🚀 Quick Start
 
 ```bash
+# Install dependencies
+npm install
+
+# Run development server
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 📁 Project Structure
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```
+├── app/                    # Next.js App Router
+│   ├── auth/              # Authentication flow
+│   ├── blog/              # Blog feed, detail, create
+│   ├── profile/           # User profile
+│   └── layout.tsx         # Root layout
+├── components/
+│   ├── ui/                # Reusable primitives
+│   ├── layout/            # Header, Footer, MainLayout
+│   ├── auth/              # AuthForm
+│   ├── blog/              # PostCard, PostEditor, etc.
+│   └── profile/           # ProfileCard
+├── lib/
+│   ├── types.ts           # TypeScript interfaces
+│   ├── actions/           # Server actions
+│   ├── data/              # Store, session, seed data
+│   └── utils/             # Validation helpers
+└── track.md               # Development progress
+```
 
-## Learn More
+## 🔐 Demo Accounts
 
-To learn more about Next.js, take a look at the following resources:
+| Email               | Password      | Notes              |
+| ------------------- | ------------- | ------------------ |
+| `sarah@example.com` | `password123` | Has existing posts |
+| `alex@example.com`  | `password123` | Has existing posts |
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Or create a new account with any email.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 🛠 Tech Stack
 
-## Deploy on Vercel
+- **Next.js 15** — App Router, Server Actions
+- **TypeScript** — Full type safety
+- **Tailwind CSS 4** — Utility-first styling
+- **Cookies** — Session management (base64 encoded)
+- **In-Memory Store** — Persists during server runtime
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 📋 Validation Rules
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+| Field        | Constraints           |
+| ------------ | --------------------- |
+| Email        | Valid format required |
+| Password     | Min 6 characters      |
+| Name         | 2-50 characters       |
+| Post Title   | 5-100 characters      |
+| Post Content | 50-10,000 characters  |
+
+## 🎯 Roadmap
+
+See [track.md](./track.md) for development progress and backlog.
+
+## 📄 License
+
+MIT
