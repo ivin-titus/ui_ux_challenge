@@ -112,6 +112,46 @@ class DataStore {
       },
     ];
     this.messages.push(...messages2);
+
+    // Demo conversation between Alex (user-1) and Sam (user-3)
+    const conv3: Conversation = {
+      id: "conv-demo-3",
+      participants: ["user-1", "user-3"],
+      lastMessageAt: new Date(Date.now() - 1000 * 60 * 60 * 2), // 2 hours ago
+      createdAt: new Date(Date.now() - 1000 * 60 * 60 * 12), // 12 hours ago
+    };
+    this.conversations.push(conv3);
+
+    const messages3: Message[] = [
+      {
+        id: "msg-demo-7",
+        conversationId: "conv-demo-3",
+        senderId: "user-1", // Alex
+        content:
+          "Hey Sam! I read your article on digital minimalism - really inspiring stuff!",
+        createdAt: new Date(Date.now() - 1000 * 60 * 60 * 12),
+        read: true,
+      },
+      {
+        id: "msg-demo-8",
+        conversationId: "conv-demo-3",
+        senderId: "user-3", // Sam
+        content:
+          "Thanks Alex! Your tech posts always make complex topics so approachable.",
+        createdAt: new Date(Date.now() - 1000 * 60 * 60 * 10),
+        read: true,
+      },
+      {
+        id: "msg-demo-9",
+        conversationId: "conv-demo-3",
+        senderId: "user-1", // Alex
+        content:
+          "Would you be interested in being a guest on my podcast sometime?",
+        createdAt: new Date(Date.now() - 1000 * 60 * 60 * 2),
+        read: false,
+      },
+    ];
+    this.messages.push(...messages3);
   }
 
   // User methods
@@ -123,6 +163,10 @@ class DataStore {
 
   findUserById(id: string): User | undefined {
     return this.users.find((user) => user.id === id);
+  }
+
+  getAllUsers(): User[] {
+    return [...this.users];
   }
 
   createUser(
