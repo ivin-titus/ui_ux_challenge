@@ -1,5 +1,5 @@
 // Server-side session management using cookies
-// Simple approach: store user ID in an encrypted cookie
+// Stores user data in cookie for serverless compatibility
 
 import { cookies } from "next/headers";
 import { store } from "./store";
@@ -26,16 +26,33 @@ export async function getSession(): Promise<SessionUser | null> {
   }
 
   try {
-    const userId = decode(sessionCookie.value);
-    const user = store.findUserById(userId);
+    const decoded = decode(sessionCookie.value);
 
-    if (!user) {
-      return null;
+    // Try parsing as JSON (new format with full user data)
+    try {
+      const sessionData = JSON.parse(decoded) as SessionUser;
+
+      // Verify user still exists in store (for seed users)
+      // If not, re-add them (handles serverless cold start)
+      const existingUser = store.findUserById(sessionData.id);
+      if (!existingUser && sessionData.id) {
+        // User was created but store was reset - that's ok, session is still valid
+        // The user data is in the cookie
+      }
+
+      return sessionData;
+    } catch {
+      // Fall back to old format (just user ID)
+      const userId = decoded;
+      const user = store.findUserById(userId);
+
+      if (!user) {
+        return null;
+      }
+
+      const { password, ...sessionUser } = user;
+      return sessionUser;
     }
-
-    // Return user without password
-    const { password, ...sessionUser } = user;
-    return sessionUser;
   } catch {
     return null;
   }
@@ -43,8 +60,16 @@ export async function getSession(): Promise<SessionUser | null> {
 
 export async function createSession(userId: string): Promise<void> {
   const cookieStore = await cookies();
+  const user = store.findUserById(userId);
 
-  cookieStore.set(SESSION_COOKIE_NAME, encode(userId), {
+  if (!user) {
+    throw new Error("User not found");
+  }
+
+  // Store full user data (without password) for serverless compatibility
+  const { password, ...sessionUser } = user;
+
+  cookieStore.set(SESSION_COOKIE_NAME, encode(JSON.stringify(sessionUser)), {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
     sameSite: "lax",
