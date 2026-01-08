@@ -1,14 +1,28 @@
 "use client";
 
-import { useState, useTransition } from "react";
+import { useState, useTransition, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import { TopicId, PostVisibility } from "@/lib/types";
 import { BLOG_TOPICS } from "@/lib/data/topics";
 import { createPost } from "@/lib/actions/posts";
-import { Input, TextArea, Button, Card, CardContent } from "@/components/ui";
+import {
+  Input,
+  TextArea,
+  Button,
+  Card,
+  CardContent,
+  useToast,
+} from "@/components/ui";
+import {
+  getTitleError,
+  getContentError,
+  POST_LIMITS,
+  getReadingTime,
+} from "@/lib/utils/validation";
 
 export function PostEditor() {
   const router = useRouter();
+  const { showToast } = useToast();
   const [isPending, startTransition] = useTransition();
 
   const [title, setTitle] = useState("");
@@ -16,18 +30,48 @@ export function PostEditor() {
   const [topicId, setTopicId] = useState<TopicId>("thoughts");
   const [visibility, setVisibility] = useState<PostVisibility>("public");
   const [error, setError] = useState("");
+  const [touched, setTouched] = useState({ title: false, content: false });
+
+  // Validation
+  const titleError = useMemo(
+    () => (touched.title ? getTitleError(title) : null),
+    [title, touched.title]
+  );
+  const contentError = useMemo(
+    () => (touched.content ? getContentError(content) : null),
+    [content, touched.content]
+  );
+
+  // Character counts
+  const titleCharCount = title.length;
+  const contentCharCount = content.length;
+
+  // Reading time
+  const readingTime = useMemo(() => getReadingTime(content), [content]);
+
+  // Form validity
+  const isValid =
+    title.trim().length >= POST_LIMITS.title.min &&
+    title.trim().length <= POST_LIMITS.title.max &&
+    content.trim().length >= POST_LIMITS.content.min &&
+    content.trim().length <= POST_LIMITS.content.max;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setTouched({ title: true, content: true });
     setError("");
+
+    if (!isValid) return;
 
     startTransition(async () => {
       const result = await createPost(title, content, topicId, visibility);
 
       if (result.success && result.post) {
+        showToast("Post published successfully!", "success");
         router.push(`/blog/${result.post.slug}`);
       } else {
         setError(result.error ?? "Something went wrong");
+        showToast(result.error ?? "Failed to publish", "error");
       }
     });
   };
@@ -44,14 +88,32 @@ export function PostEditor() {
           )}
 
           {/* Title input */}
-          <Input
-            label="Title"
-            placeholder="What's on your mind?"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            required
-            disabled={isPending}
-          />
+          <div className="space-y-1">
+            <Input
+              label="Title"
+              placeholder="What's on your mind?"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              onBlur={() => setTouched((prev) => ({ ...prev, title: true }))}
+              error={titleError ?? undefined}
+              required
+              disabled={isPending}
+              maxLength={POST_LIMITS.title.max}
+            />
+            <div className="flex justify-end">
+              <span
+                className={`text-xs ${
+                  titleCharCount > POST_LIMITS.title.max
+                    ? "text-red-500"
+                    : titleCharCount >= POST_LIMITS.title.max * 0.9
+                    ? "text-amber-500"
+                    : "text-slate-400 dark:text-slate-500"
+                }`}
+              >
+                {titleCharCount}/{POST_LIMITS.title.max}
+              </span>
+            </div>
+          </div>
 
           {/* Topic selector */}
           <div>
@@ -99,15 +161,36 @@ export function PostEditor() {
           </div>
 
           {/* Content textarea */}
-          <TextArea
-            label="Content"
-            placeholder="Write your thoughts here..."
-            value={content}
-            onChange={(e) => setContent(e.target.value)}
-            required
-            disabled={isPending}
-            className="min-h-[300px]"
-          />
+          <div className="space-y-1">
+            <TextArea
+              label="Content"
+              placeholder="Write your thoughts here..."
+              value={content}
+              onChange={(e) => setContent(e.target.value)}
+              onBlur={() => setTouched((prev) => ({ ...prev, content: true }))}
+              error={contentError ?? undefined}
+              required
+              disabled={isPending}
+              className="min-h-[300px]"
+            />
+            <div className="flex justify-between text-xs">
+              <span className="text-slate-400 dark:text-slate-500">
+                {content.trim() && `~${readingTime} min read`}
+              </span>
+              <span
+                className={`${
+                  contentCharCount > POST_LIMITS.content.max
+                    ? "text-red-500"
+                    : contentCharCount >= POST_LIMITS.content.max * 0.9
+                    ? "text-amber-500"
+                    : "text-slate-400 dark:text-slate-500"
+                }`}
+              >
+                {contentCharCount.toLocaleString()}/
+                {POST_LIMITS.content.max.toLocaleString()}
+              </span>
+            </div>
+          </div>
 
           {/* Visibility toggle */}
           <div className="border-t border-slate-200 dark:border-slate-800 pt-6">
@@ -245,10 +328,7 @@ export function PostEditor() {
             >
               Cancel
             </Button>
-            <Button
-              type="submit"
-              disabled={isPending || !title.trim() || !content.trim()}
-            >
+            <Button type="submit" disabled={isPending || !isValid}>
               {isPending ? "Publishing..." : "Publish"}
             </Button>
           </div>
