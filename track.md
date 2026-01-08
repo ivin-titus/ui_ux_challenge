@@ -1,26 +1,13 @@
 # Axis Blog - Development Track
 
-## Current Status: ✅ Full CRUD Complete
+## Current Status: ✅ High Priority Complete
 
-### Completed This Sprint
+### Just Completed ✅
 
-- [x] **Post CRUD**
-  - [x] Create post
-  - [x] Read posts (feed, detail)
-  - [x] Update own posts (server action)
-  - [x] Delete own posts (server action)
-- [x] **Profile CRUD**
-  - [x] Read profile with avatar display
-  - [x] Update display name and bio
-  - [x] Profile picture upload/view/delete
-  - [x] Fullscreen avatar preview
-
-### Up Next
-
-- [ ] Post edit UI page (`/blog/[slug]/edit`)
-- [ ] Delete post confirmation dialog
-- [ ] Copy link button on post detail
-- [ ] Draft auto-save to localStorage
+- [x] Post edit UI page (`/blog/[slug]/edit`)
+- [x] Delete confirmation dialog
+- [x] Copy link button on post detail
+- [x] Edit button for post authors
 
 ---
 
@@ -35,11 +22,16 @@
 - Both public and authenticated-only seed posts
 - Demo avatar images for seed users
 
+### CRUD ✅
+
+- Post: Create, Read, Update, Delete (full UI)
+- Profile: Read, Update name/bio, Avatar upload/delete/fullscreen
+
 ### Components ✅
 
 - **UI**: Button, Input, TextArea, Card, Toast, Avatar, ProfileEditor
 - **Layout**: Header, Footer, MainLayout
-- **Blog**: PostCard, PostList, PostEditor, PostContent
+- **Blog**: PostCard, PostList, PostEditor, PostContent, PostEditForm, PostActions
 - **Auth**: AuthForm with password strength
 - **Profile**: ProfileCard with avatar and edit modal
 
@@ -48,29 +40,23 @@
 - `/` — Landing with hero + featured posts
 - `/auth` — Progressive email-first auth
 - `/blog` — Feed with topic filtering
-- `/blog/[slug]` — Post detail with reading time
+- `/blog/[slug]` — Post detail with copy link, edit button
+- `/blog/[slug]/edit` — Edit post with delete option
 - `/blog/create` — Editor with visibility toggle
 - `/profile` — Avatar, bio, edit modal, posts list
 
 ### UX Polish ✅
 
-- Email, password, name validation
+- Validation with user feedback
 - Password strength indicator
-- Character counts with limits
-- Reading time estimates
+- Character counts, reading time
 - Toast notifications
-- Post visibility (Public / Members Only)
+- Post visibility badges
 - Reduced motion support
 
 ---
 
 ## Backlog
-
-### High Priority
-
-- [ ] Post edit UI page
-- [ ] Delete confirmation dialog
-- [ ] Copy link button on post detail
 
 ### Medium Priority
 
