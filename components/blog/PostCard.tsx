@@ -64,14 +64,7 @@ export function PostCard({ post }: PostCardProps) {
 
           {/* Meta info */}
           <p className="text-sm text-slate-500 dark:text-slate-400">
-            <Link
-              href={`/u/${post.authorUsername}`}
-              className="hover:text-slate-900 dark:hover:text-white hover:underline"
-              onClick={(e) => e.stopPropagation()}
-            >
-              {post.authorName}
-            </Link>{" "}
-            · {formattedDate} · {readingTime} min read
+            {post.authorName} · {formattedDate} · {readingTime} min read
           </p>
 
           {/* Excerpt */}
