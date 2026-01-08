@@ -40,6 +40,12 @@ export async function Header() {
                   Feed
                 </Link>
                 <Link
+                  href="/explore"
+                  className="text-sm text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors px-3 py-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800"
+                >
+                  Explore
+                </Link>
+                <Link
                   href="/messages"
                   className="text-sm text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors px-3 py-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800"
                   title="Messages"
