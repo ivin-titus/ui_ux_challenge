@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Post } from "@/lib/types";
 import { getTopicById } from "@/lib/data/topics";
 import { Card, CardContent } from "@/components/ui";
+import { getReadingTime } from "@/lib/utils/validation";
 
 interface PostCardProps {
   post: Post;
@@ -9,6 +10,7 @@ interface PostCardProps {
 
 export function PostCard({ post }: PostCardProps) {
   const topic = getTopicById(post.topicId);
+  const readingTime = getReadingTime(post.content);
 
   // Format the date
   const formattedDate = new Intl.DateTimeFormat("en-US", {
@@ -62,7 +64,7 @@ export function PostCard({ post }: PostCardProps) {
 
           {/* Meta info */}
           <p className="text-sm text-slate-500 dark:text-slate-400">
-            {post.authorName} · {formattedDate}
+            {post.authorName} · {formattedDate} · {readingTime} min read
           </p>
 
           {/* Excerpt */}
