@@ -1,11 +1,22 @@
 "use client";
 
-import { useState, useEffect, useTransition } from "react";
+import { useState, useEffect, useTransition, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { AuthStep, AuthState } from "@/lib/types";
 import { checkEmail, login, register } from "@/lib/actions/auth";
-import { Input, Button, Card, CardContent } from "@/components/ui";
+import {
+  Input,
+  Button,
+  Card,
+  CardContent,
+  PasswordStrengthIndicator,
+} from "@/components/ui";
+import {
+  isValidEmail,
+  getEmailError,
+  getNameError,
+} from "@/lib/utils/validation";
 
 const REDIRECT_COUNTDOWN = 5;
 
@@ -20,6 +31,26 @@ export function AuthForm() {
 
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
+  const [touched, setTouched] = useState({
+    email: false,
+    name: false,
+    password: false,
+  });
+
+  // Validation errors
+  const emailError = useMemo(
+    () => (touched.email ? getEmailError(state.email) : null),
+    [state.email, touched.email]
+  );
+  const nameError = useMemo(
+    () => (touched.name ? getNameError(name) : null),
+    [name, touched.name]
+  );
+
+  // Check if form is valid for each step
+  const isEmailStepValid = isValidEmail(state.email);
+  const isLoginStepValid = password.length >= 1;
+  const isRegisterStepValid = name.trim().length >= 2 && password.length >= 6;
 
   // Handle auto-redirect countdown
   useEffect(() => {
@@ -60,7 +91,9 @@ export function AuthForm() {
   // Handle email submission
   const handleEmailSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!state.email.trim()) return;
+    setTouched((prev) => ({ ...prev, email: true }));
+
+    if (!isEmailStepValid) return;
 
     startTransition(async () => {
       const result = await checkEmail(state.email);
@@ -76,7 +109,9 @@ export function AuthForm() {
   // Handle login submission
   const handleLoginSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!password) return;
+    setTouched((prev) => ({ ...prev, password: true }));
+
+    if (!isLoginStepValid) return;
 
     startTransition(async () => {
       const result = await login(state.email, password);
@@ -101,7 +136,9 @@ export function AuthForm() {
   // Handle register submission
   const handleRegisterSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!name || !password) return;
+    setTouched((prev) => ({ ...prev, name: true, password: true }));
+
+    if (!isRegisterStepValid) return;
 
     startTransition(async () => {
       const result = await register(state.email, name, password);
@@ -128,6 +165,7 @@ export function AuthForm() {
     setState({ step: "email", email: "" });
     setPassword("");
     setName("");
+    setTouched({ email: false, name: false, password: false });
   };
 
   // Handle immediate redirect
@@ -167,6 +205,21 @@ export function AuthForm() {
           {state.step === "redirecting" && (
             <div className="text-center space-y-6">
               <div className="space-y-2">
+                <div className="w-12 h-12 mx-auto mb-4 rounded-full bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center">
+                  <svg
+                    className="w-6 h-6 text-blue-600 dark:text-blue-400 animate-pulse"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                    />
+                  </svg>
+                </div>
                 <p className="text-lg text-slate-900 dark:text-white">
                   {state.message}
                 </p>
@@ -200,15 +253,18 @@ export function AuthForm() {
                 onChange={(e) =>
                   setState((prev) => ({ ...prev, email: e.target.value }))
                 }
+                onBlur={() => setTouched((prev) => ({ ...prev, email: true }))}
+                error={emailError ?? undefined}
                 required
                 autoFocus
+                autoComplete="email"
                 disabled={isPending}
               />
 
               <Button
                 type="submit"
                 fullWidth
-                disabled={isPending || !state.email.trim()}
+                disabled={isPending || !isEmailStepValid}
               >
                 {isPending ? "Checking..." : "Continue"}
               </Button>
@@ -252,10 +308,15 @@ export function AuthForm() {
                 onChange={(e) => setPassword(e.target.value)}
                 required
                 autoFocus
+                autoComplete="current-password"
                 disabled={isPending}
               />
 
-              <Button type="submit" fullWidth disabled={isPending || !password}>
+              <Button
+                type="submit"
+                fullWidth
+                disabled={isPending || !isLoginStepValid}
+              >
                 {isPending ? "Signing in..." : "Sign In"}
               </Button>
 
@@ -297,26 +358,32 @@ export function AuthForm() {
                 placeholder="John Doe"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
+                onBlur={() => setTouched((prev) => ({ ...prev, name: true }))}
+                error={nameError ?? undefined}
                 required
                 autoFocus
+                autoComplete="name"
                 disabled={isPending}
               />
 
-              <Input
-                type="password"
-                label="Create password"
-                placeholder="At least 6 characters"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-                disabled={isPending}
-                hint="Use at least 6 characters"
-              />
+              <div className="space-y-2">
+                <Input
+                  type="password"
+                  label="Create password"
+                  placeholder="At least 6 characters"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                  autoComplete="new-password"
+                  disabled={isPending}
+                />
+                <PasswordStrengthIndicator password={password} />
+              </div>
 
               <Button
                 type="submit"
                 fullWidth
-                disabled={isPending || !name || !password}
+                disabled={isPending || !isRegisterStepValid}
               >
                 {isPending ? "Creating account..." : "Create Account"}
               </Button>
