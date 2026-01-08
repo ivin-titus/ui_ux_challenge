@@ -23,18 +23,24 @@ export function Footer() {
             >
               Blog
             </Link>
-            <span
-              className="text-sm text-slate-400 dark:text-slate-500 cursor-default"
-              title="Coming soon"
+            <Link
+              href="/about"
+              className="text-sm text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors"
             >
               About
-            </span>
-            <span
-              className="text-sm text-slate-400 dark:text-slate-500 cursor-default"
-              title="Coming soon"
+            </Link>
+            <Link
+              href="/privacy"
+              className="text-sm text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors"
             >
               Privacy
-            </span>
+            </Link>
+            <Link
+              href="/terms"
+              className="text-sm text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors"
+            >
+              Terms
+            </Link>
           </nav>
         </div>
       </div>
