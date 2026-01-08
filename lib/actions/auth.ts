@@ -101,8 +101,16 @@ export async function register(
     };
   }
 
+  // Generate username from name (lowercase, no spaces)
+  const username = name.trim().toLowerCase().replace(/\s+/g, "");
+
   // Create user
-  const newUser = store.createUser(normalizedEmail, name.trim(), password);
+  const newUser = store.createUser(
+    normalizedEmail,
+    username,
+    name.trim(),
+    password
+  );
 
   // Create session
   await createSession(newUser.id);

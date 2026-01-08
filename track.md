@@ -1,75 +1,66 @@
-# Axis Blog - Development Track
+# Axis Social - Development Track
 
-## Current Status: ✅ High Priority Complete
+## Current Status: Phase 2 Complete ✅
 
-### Just Completed ✅
+### Phase 1: Data Models ✅
 
-- [x] Post edit UI page (`/blog/[slug]/edit`)
-- [x] Delete confirmation dialog
-- [x] Copy link button on post detail
-- [x] Edit button for post authors
+- Added username to User, authorUsername to Post
+- Created Follow, Message, Conversation types
+- Implemented all social store methods
 
----
+### Phase 2: 1:1 Messaging ✅
 
-## Completed Features
+- `/messages` - Conversations list
+- `/messages/[id]` - Chat with optimistic sending
+- Messages icon in header nav
 
-### Core Infrastructure ✅
+### Phase 3: Following System (Next)
 
-- TypeScript types (User, Post, Topic, Auth)
-- In-memory data store with full CRUD operations
-- Cookie-based session management
-- Server actions for auth, posts, and profile
-- Both public and authenticated-only seed posts
-- Demo avatar images for seed users
+- [ ] Follow/unfollow server actions
+- [ ] Get followers/following lists
+- [ ] Feed prioritizes followed users
 
-### CRUD ✅
+### Phase 4: Public Profiles
 
-- Post: Create, Read, Update, Delete (full UI)
-- Profile: Read, Update name/bio, Avatar upload/delete/fullscreen
-
-### Components ✅
-
-- **UI**: Button, Input, TextArea, Card, Toast, Avatar, ProfileEditor
-- **Layout**: Header, Footer, MainLayout
-- **Blog**: PostCard, PostList, PostEditor, PostContent, PostEditForm, PostActions
-- **Auth**: AuthForm with password strength
-- **Profile**: ProfileCard with avatar and edit modal
-
-### Pages ✅
-
-- `/` — Landing with hero + featured posts
-- `/auth` — Progressive email-first auth
-- `/blog` — Feed with topic filtering
-- `/blog/[slug]` — Post detail with copy link, edit button
-- `/blog/[slug]/edit` — Edit post with delete option
-- `/blog/create` — Editor with visibility toggle
-- `/profile` — Avatar, bio, edit modal, posts list
-
-### UX Polish ✅
-
-- Validation with user feedback
-- Password strength indicator
-- Character counts, reading time
-- Toast notifications
-- Post visibility badges
-- Reduced motion support
+- [ ] `/u/[username]` route
+- [ ] Follow + Message buttons
+- [ ] Link author names to profiles
 
 ---
 
-## Backlog
+## Feature Backlog
+
+### High Priority
+
+- [ ] Likes on posts
+- [ ] Comments
+- [ ] Bookmarks
+- [ ] Search
+- [ ] Dark mode toggle
+- [ ] Notifications
 
 ### Medium Priority
 
-- [ ] Draft auto-save to localStorage
-- [ ] Preview mode before publish
-- [ ] Search posts by title/author
-- [ ] Dark mode toggle
+- [ ] Trending posts
+- [ ] Suggested users
+- [ ] Topic subscriptions
 
 ### Low Priority
 
-- [ ] Comments system
+- [ ] Cover images
+- [ ] Block/mute
 - [ ] Rich text editor
-- [ ] Social meta tags
+
+---
+
+## Completed ✅
+
+- Auth: email-first flow
+- Posts: CRUD, visibility toggle
+- Profile: avatar, bio, edit
+- Feed: topic filtering
+- UX: validation, toasts
+- 1:1 Messaging
 
 ---
 

@@ -3,6 +3,7 @@
 export interface User {
   id: string;
   email: string;
+  username: string; // unique, lowercase, for /u/[username]
   name: string;
   bio: string;
   avatar: string | null; // Base64 data URL or null if no avatar
@@ -19,6 +20,7 @@ export interface Post {
   topicId: TopicId;
   authorId: string;
   authorName: string;
+  authorUsername: string;
   createdAt: Date;
   visibility: PostVisibility;
 }
@@ -51,4 +53,28 @@ export interface AuthState {
   error?: string;
   message?: string;
   redirectCountdown?: number;
+}
+
+// Social types
+
+export interface Follow {
+  followerId: string;
+  followingId: string;
+  createdAt: Date;
+}
+
+export interface Message {
+  id: string;
+  conversationId: string;
+  senderId: string;
+  content: string;
+  createdAt: Date;
+  read: boolean;
+}
+
+export interface Conversation {
+  id: string;
+  participants: [string, string]; // exactly 2 user IDs
+  lastMessageAt: Date;
+  createdAt: Date;
 }

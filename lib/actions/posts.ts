@@ -112,6 +112,7 @@ export async function createPost(
     topicId,
     session.id,
     session.name,
+    session.username,
     visibility
   );
 

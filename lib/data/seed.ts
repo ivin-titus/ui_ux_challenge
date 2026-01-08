@@ -31,6 +31,7 @@ export const seedUsers: User[] = [
   {
     id: "user-1",
     email: "alex@example.com",
+    username: "alexchen",
     name: "Alex Chen",
     bio: "Full-stack developer passionate about building delightful user experiences. Based in San Francisco.",
     avatar: DEMO_AVATARS.alex,
@@ -40,6 +41,7 @@ export const seedUsers: User[] = [
   {
     id: "user-2",
     email: "jamie@example.com",
+    username: "jamiewilson",
     name: "Jamie Wilson",
     bio: "Designer turned developer. I write about the intersection of design and technology.",
     avatar: DEMO_AVATARS.jamie,
@@ -49,6 +51,7 @@ export const seedUsers: User[] = [
   {
     id: "user-3",
     email: "sam@example.com",
+    username: "samrivera",
     name: "Sam Rivera",
     bio: "Productivity enthusiast and digital minimalist. Sharing thoughts on intentional living.",
     avatar: null,
@@ -64,6 +67,7 @@ const seedPostsData: Array<{
   topicId: TopicId;
   authorId: string;
   authorName: string;
+  authorUsername: string;
   daysAgo: number;
   visibility: "public" | "authenticated";
 }> = [
@@ -84,6 +88,7 @@ The App Router provides built-in support for loading and error states through sp
     topicId: "technology",
     authorId: "user-1",
     authorName: "Alex Chen",
+    authorUsername: "alexchen",
     daysAgo: 2,
     visibility: "public" as const,
   },
@@ -104,6 +109,7 @@ The goal is clarity. Every element should have a purpose. If you can't explain w
     topicId: "design",
     authorId: "user-2",
     authorName: "Jamie Wilson",
+    authorUsername: "jamiewilson",
     daysAgo: 5,
     visibility: "public" as const,
   },
@@ -124,6 +130,7 @@ Remember: you don't rise to the level of your goals, you fall to the level of yo
     topicId: "lifestyle",
     authorId: "user-3",
     authorName: "Sam Rivera",
+    authorUsername: "samrivera",
     daysAgo: 7,
     visibility: "public" as const,
   },
@@ -144,6 +151,7 @@ The deep work hypothesis: the ability to concentrate without distraction on a co
     topicId: "productivity",
     authorId: "user-1",
     authorName: "Alex Chen",
+    authorUsername: "alexchen",
     daysAgo: 10,
     visibility: "public" as const,
   },
@@ -167,6 +175,7 @@ The first year is about learning, not proving. Give yourself permission to be a 
     topicId: "career",
     authorId: "user-2",
     authorName: "Jamie Wilson",
+    authorUsername: "jamiewilson",
     daysAgo: 14,
     visibility: "public" as const,
   },
@@ -187,6 +196,7 @@ We need a philosophy of technology use. Not abstinence, but intentionality. What
     topicId: "thoughts",
     authorId: "user-3",
     authorName: "Sam Rivera",
+    authorUsername: "samrivera",
     daysAgo: 21,
     visibility: "public" as const,
   },
@@ -213,6 +223,7 @@ This setup has evolved over years of experimentation. The key is finding what wo
     topicId: "technology",
     authorId: "user-1",
     authorName: "Alex Chen",
+    authorUsername: "alexchen",
     daysAgo: 3,
     visibility: "authenticated" as const,
   },
@@ -239,6 +250,7 @@ Each of these books arrived at the right moment and shifted something in how I a
     topicId: "lifestyle",
     authorId: "user-2",
     authorName: "Jamie Wilson",
+    authorUsername: "jamiewilson",
     daysAgo: 8,
     visibility: "authenticated" as const,
   },
@@ -257,6 +269,7 @@ export const seedPosts: Post[] = seedPostsData.map((post, index) => {
     topicId: post.topicId,
     authorId: post.authorId,
     authorName: post.authorName,
+    authorUsername: post.authorUsername,
     createdAt,
     visibility: post.visibility,
   };
